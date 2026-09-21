@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1065685017916",
+    "project_id": "nyro-crypto",
+    "storage_bucket": "nyro-crypto.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065685017916:android:2ce95ffb913e360d37aa39",
+        "android_client_info": {
+          "package_name": "com.example.nyro_cryto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFv7zPl33lIXkvinNumzin7ss4TnzIM3k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
