@@ -5,7 +5,7 @@ import 'package:nyro_cryto/firebase_options.dart';
 import 'package:nyro_cryto/routes.dart';
 
 void main() async {
-    WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(ProviderScope(child: const MyApp()));

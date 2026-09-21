@@ -1,0 +1,71 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nyro_cryto/features/auth_screens/services/auth_service.dart';
+import 'package:nyro_cryto/model/user_models.dart';
+
+class AuthNotifier extends AsyncNotifier<UserCredential?> {
+  late final AuthService _authService;
+  @override
+  FutureOr<UserCredential?> build() {
+    _authService = ref.read(authServiceProvider);
+    return null;
+  }
+
+  Future<void> signUp({
+    required String email,
+    required String password,
+    required String username,
+  }) async {
+    state = const AsyncValue.loading();
+    try {
+      final credential = await _authService.signUpWithEmailAndPassword(
+        email: email,
+        password: password,
+        username: username,
+      );
+      state = AsyncValue.data(credential);
+    } catch (e, stackTrace) {
+      state = AsyncValue.error(e, stackTrace);
+    }
+  }
+
+  Future<void> signIn({required String email, required String password}) async {
+    state = const AsyncValue.loading();
+    try {
+      final credential = await _authService.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      state = AsyncValue.data(credential);
+    } catch (e, stackTrace) {
+      state = AsyncValue.error(e, stackTrace);
+    }
+  }
+
+  Future<void> signOut() async {
+    state = const AsyncValue.loading();
+    try {
+      await _authService.signOut();
+      state = const AsyncValue.data(null);
+    } catch (e, stackTrace) {
+      state = AsyncValue.error(e, stackTrace);
+    }
+  }
+
+  // Future<UserModels?> getCurrentUser() async {
+  //   state = const AsyncValue.loading();
+  //   try {
+  //     final user = await getCurrentUser();
+  //     // state = AsyncValue.data(user);
+  //     return user;
+  //   } catch (e, stackTrace) {
+  //     state = AsyncValue.error(e, stackTrace);
+  //     return null;
+  //   }
+  // }
+}
+
+final authNotifierProvider =
+    AsyncNotifierProvider<AuthNotifier, UserCredential?>(AuthNotifier.new);

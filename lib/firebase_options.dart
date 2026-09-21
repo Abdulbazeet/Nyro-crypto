@@ -57,7 +57,6 @@ class DefaultFirebaseOptions {
     projectId: 'nyro-crypto',
     storageBucket: 'nyro-crypto.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCfGzJSppS0PubhKa0sK-DTGdHxol8fSRE',
     appId: '1:1065685017916:ios:4401a648a0bc8f6b37aa39',
@@ -66,7 +65,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'nyro-crypto.firebasestorage.app',
     iosBundleId: 'com.example.nyroCryto',
   );
-
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyCfGzJSppS0PubhKa0sK-DTGdHxol8fSRE',
     appId: '1:1065685017916:ios:4401a648a0bc8f6b37aa39',

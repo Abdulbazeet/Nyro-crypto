@@ -2,10 +2,11 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart' show Container, Widget;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nyro_cryto/common/app_utils.dart';
+import 'package:nyro_cryto/features/auth_screens/services/auth_notifier.dart';
 
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
@@ -18,8 +19,36 @@ class _SignUpState extends ConsumerState<SignUp> {
   bool isHidden = true;
   bool isHidden2 = true;
   bool isChecked = false;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  final usernameController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+
+    ref.listenManual(authNotifierProvider, (previous, next) {
+      next.whenOrNull(
+        data: (credential) {
+          if (credential == null) return;
+
+          context.go('/otp');
+        },
+        error: (error, stackTrace) {
+          AppUtils.bar(
+            text: error.toString(),
+            context: context,
+            color: Colors.red,
+          );
+        },
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authNotifier = ref.watch(authNotifierProvider.notifier);
+    final authState = ref.watch(authNotifierProvider);
     return Scaffold(
       body: SafeArea(
         child: SizedBox.expand(
@@ -29,6 +58,8 @@ class _SignUpState extends ConsumerState<SignUp> {
               child: Column(
                 crossAxisAlignment: .start,
                 children: [
+                  SizedBox(height: 40),
+
                   Text(
                     'Create your account',
                     style: GoogleFonts.spaceGrotesk(
@@ -57,10 +88,13 @@ class _SignUpState extends ConsumerState<SignUp> {
                     ),
                   ),
                   SizedBox(height: 10),
+
                   TextFormField(
+                    controller: usernameController,
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 12,
                       color: Colors.black,
+                      fontWeight: .bold,
                     ),
                     keyboardType: .name,
                     decoration: InputDecoration(
@@ -97,8 +131,11 @@ class _SignUpState extends ConsumerState<SignUp> {
                   ),
                   SizedBox(height: 10),
                   TextFormField(
+                    controller: emailController,
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 12,
+                      fontWeight: .bold,
+
                       color: Colors.black,
                     ),
                     keyboardType: .emailAddress,
@@ -136,9 +173,11 @@ class _SignUpState extends ConsumerState<SignUp> {
                   ),
                   SizedBox(height: 10),
                   TextFormField(
+                    controller: passwordController,
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 12,
                       color: Colors.black,
+                      fontWeight: .bold,
                     ),
                     obscureText: isHidden,
 
@@ -189,11 +228,13 @@ class _SignUpState extends ConsumerState<SignUp> {
                   ),
                   SizedBox(height: 10),
                   TextFormField(
+                    controller: confirmPasswordController,
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 12,
                       color: Colors.black,
+                      fontWeight: .bold,
                     ),
-                    obscureText: isHidden,
+                    obscureText: isHidden2,
 
                     decoration: InputDecoration(
                       suffixIcon: IconButton(
@@ -232,8 +273,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                   SizedBox(height: 10),
                   Row(
                     // mainAxisSize: .max,
-                   // crossAxisAlignment: .start,
+                    // crossAxisAlignment: .start,
                     mainAxisAlignment: .start,
+
                     children: [
                       Checkbox(
                         value: isChecked,
@@ -295,16 +337,42 @@ class _SignUpState extends ConsumerState<SignUp> {
                   SizedBox(height: 20),
                   Container(
                     decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
+                      boxShadow: authState.isLoading
+                          ? null
+                          : [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 10,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
                     ),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: authState.isLoading
+                          ? null
+                          : () {
+                              if (usernameController.text.trim().isEmpty ||
+                                  emailController.text.trim().isEmpty ||
+                                  passwordController.text.isEmpty ||
+                                  confirmPasswordController.text.isEmpty) {
+                                return;
+                              }
+
+                              if (passwordController.text !=
+                                  confirmPasswordController.text) {
+                                return;
+                              }
+
+                              if (!isChecked) {
+                                return;
+                              }
+
+                              authNotifier.signUp(
+                                username: usernameController.text.trim(),
+                                email: emailController.text.trim(),
+                                password: passwordController.text,
+                              );
+                            },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         minimumSize: Size(double.infinity, 60),
@@ -312,14 +380,23 @@ class _SignUpState extends ConsumerState<SignUp> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: Text(
-                        'Create account',
-                        style: GoogleFonts.spaceGrotesk(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: .bold,
-                        ),
-                      ),
+                      child: authState.isLoading
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              'Create account',
+                              style: GoogleFonts.spaceGrotesk(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                   SizedBox(height: 20),
