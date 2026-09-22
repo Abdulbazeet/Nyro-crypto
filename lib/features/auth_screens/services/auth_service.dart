@@ -19,6 +19,7 @@ class AuthService {
     if (user == null) {
       throw Exception('User creation failed');
     }
+    await user.sendEmailVerification();
     await _firestore.collection('users').doc(user.uid).set({
       'id': user.uid,
       'email': email,
@@ -43,21 +44,45 @@ class AuthService {
   }
 
   User? get currentUser => _auth.currentUser;
-}
 
-Future<UserModels?> getCurrentUser() async {
-  final user = FirebaseAuth.instance.currentUser;
-  if (user == null) {
-    return null;
+  Future<UserModels?> getCurrentUser() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return null;
+    }
+    final userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+    if (!userDoc.exists) {
+      return null;
+    }
+    return UserModels.fromMap(userDoc.data()!);
   }
-  final userDoc = await FirebaseFirestore.instance
-      .collection('users')
-      .doc(user.uid)
-      .get();
-  if (!userDoc.exists) {
-    return null;
+
+  //
+  Future<bool> isEmailVerified() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return false;
+    }
+    await user.reload();
+    return user.emailVerified;
   }
-  return UserModels.fromMap(userDoc.data()!);
+
+  Future<void> resendVerificationEmail() async {
+    final user = _auth.currentUser;
+
+    if (user == null) {
+      throw Exception('No authenticated user');
+    }
+
+    if (user.emailVerified) {
+      return;
+    }
+
+    await user.sendEmailVerification();
+  }
 }
 
 final authServiceProvider = Provider<AuthService>((ref) {
@@ -65,5 +90,6 @@ final authServiceProvider = Provider<AuthService>((ref) {
 });
 
 final currentUserProvider = FutureProvider<UserModels?>((ref) async {
-  return await getCurrentUser();
+  final authService = ref.watch(authServiceProvider);
+  return await authService.getCurrentUser();
 });

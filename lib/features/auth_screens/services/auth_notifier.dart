@@ -54,6 +54,27 @@ class AuthNotifier extends AsyncNotifier<UserCredential?> {
     }
   }
 
+  Future<bool> isEmailVerified() async {
+    state = const AsyncValue.loading();
+    try {
+      final isVerfied = await _authService.isEmailVerified();
+      return isVerfied;
+    } catch (e, stackTrace) {
+      state = AsyncValue.error(e, stackTrace);
+      return false;
+    }
+  }
+
+  Future<void> resendVerificationEmail() async {
+    state = const AsyncValue.loading();
+    try {
+      await _authService.resendVerificationEmail();
+      state = const AsyncValue.data(null);
+    } catch (e, stackTrace) {
+      state = AsyncValue.error(e, stackTrace);
+    }
+  }
+
   // Future<UserModels?> getCurrentUser() async {
   //   state = const AsyncValue.loading();
   //   try {

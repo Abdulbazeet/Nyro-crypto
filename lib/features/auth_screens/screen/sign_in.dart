@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nyro_cryto/common/app_utils.dart';
+import 'package:nyro_cryto/features/auth_screens/services/auth_notifier.dart';
 
 class SignIn extends ConsumerStatefulWidget {
   const SignIn({super.key});
@@ -12,9 +14,37 @@ class SignIn extends ConsumerStatefulWidget {
 }
 
 class _SignInState extends ConsumerState<SignIn> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   bool isHidden = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    ref.listenManual(authNotifierProvider, (previous, next) {
+      next.whenOrNull(
+        data: (credential) {
+          if (credential == null) return;
+
+          context.go('/main');
+        },
+        error: (error, stackTrace) {
+          AppUtils.bar(
+            text: error.toString(),
+            context: context,
+            color: Colors.red,
+          );
+        },
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authNotifier = ref.watch(authNotifierProvider.notifier);
+    final authState = ref.watch(authNotifierProvider);
     return Scaffold(
       body: SafeArea(
         child: SizedBox.expand(
@@ -93,9 +123,11 @@ class _SignInState extends ConsumerState<SignIn> {
                   ),
                   SizedBox(height: 10),
                   TextFormField(
+                    controller: emailController,
                     style: GoogleFonts.spaceGrotesk(
-                      fontSize: 14,
+                      fontSize: 12,
                       color: Colors.black,
+                      fontWeight: .bold,
                     ),
                     keyboardType: .emailAddress,
                     decoration: InputDecoration(
@@ -103,7 +135,7 @@ class _SignInState extends ConsumerState<SignIn> {
                       hintText: 'you@example.com',
 
                       hintStyle: GoogleFonts.spaceGrotesk(
-                        fontSize: 14,
+                        fontSize: 12,
                         color: Colors.black45,
                       ),
                       border: OutlineInputBorder(
@@ -133,9 +165,11 @@ class _SignInState extends ConsumerState<SignIn> {
                   ),
                   SizedBox(height: 10),
                   TextFormField(
+                    controller: passwordController,
                     style: GoogleFonts.spaceGrotesk(
-                      fontSize: 14,
+                      fontSize: 12,
                       color: Colors.black,
+                      fontWeight: .bold,
                     ),
                     obscureText: isHidden,
 
@@ -156,7 +190,7 @@ class _SignInState extends ConsumerState<SignIn> {
                       filled: true,
                       hintText: '*********',
                       hintStyle: GoogleFonts.spaceGrotesk(
-                        fontSize: 14,
+                        fontSize: 12,
                         color: Colors.black45,
                       ),
                       border: OutlineInputBorder(
@@ -195,16 +229,30 @@ class _SignInState extends ConsumerState<SignIn> {
                   SizedBox(height: 20),
                   Container(
                     decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
+                      boxShadow: authState.isLoading
+                          ? null
+                          : [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 10,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
                     ),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: authState.isLoading
+                          ? null
+                          : () {
+                              if (emailController.text.trim().isEmpty ||
+                                  passwordController.text.isEmpty) {
+                                return;
+                              }
+
+                              authNotifier.signIn(
+                                email: emailController.text.trim(),
+                                password: passwordController.text,
+                              );
+                            },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         minimumSize: Size(double.infinity, 60),
@@ -212,14 +260,23 @@ class _SignInState extends ConsumerState<SignIn> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: Text(
-                        'Log in',
-                        style: GoogleFonts.spaceGrotesk(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: .bold,
-                        ),
-                      ),
+                      child: authState.isLoading
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              'Log in',
+                              style: GoogleFonts.spaceGrotesk(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: .bold,
+                              ),
+                            ),
                     ),
                   ),
                   SizedBox(height: 20),

@@ -32,7 +32,7 @@ class _SignUpState extends ConsumerState<SignUp> {
         data: (credential) {
           if (credential == null) return;
 
-          context.go('/otp');
+          context.go('/main');
         },
         error: (error, stackTrace) {
           AppUtils.bar(

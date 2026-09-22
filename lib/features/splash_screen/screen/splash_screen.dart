@@ -18,12 +18,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void navigation() async {
     await Future.delayed(const Duration(seconds: 1));
     var user = auth.currentUser;
-    if (mounted && (await AppUtils.isVerified() == true) && user != null) {
+    print('Current user: $user');
+    if (mounted && user != null) {
       context.go('/main');
-    } else if (mounted &&
-        (await AppUtils.isVerified() == false) &&
-        user != null) {
-      context.go('/otp');
     } else {
       context.go('/sign_in');
     }
