@@ -57,7 +57,7 @@ Future<UserModels?> getCurrentUser() async {
   if (!userDoc.exists) {
     return null;
   }
-  return UserModels.fromJson(userDoc.data()!);
+  return UserModels.fromMap(userDoc.data()!);
 }
 
 final authServiceProvider = Provider<AuthService>((ref) {

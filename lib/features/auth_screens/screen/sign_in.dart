@@ -148,8 +148,8 @@ class _SignInState extends ConsumerState<SignIn> {
                         },
                         icon: Icon(
                           isHidden
-                              ? Icons.visibility_off_rounded
-                              : Icons.visibility_rounded,
+                              ? Icons.visibility_rounded
+                              : Icons.visibility_off_rounded,
                         ),
                       ),
 

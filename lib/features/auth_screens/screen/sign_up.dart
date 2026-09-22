@@ -190,8 +190,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                         },
                         icon: Icon(
                           isHidden
-                              ? Icons.visibility_off_rounded
-                              : Icons.visibility_rounded,
+                              ? Icons.visibility_rounded
+                              : Icons.visibility_off_rounded,
                         ),
                       ),
 
@@ -245,8 +245,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                         },
                         icon: Icon(
                           isHidden2
-                              ? Icons.visibility_off_rounded
-                              : Icons.visibility_rounded,
+                              ? Icons.visibility_rounded
+                              : Icons.visibility_off_rounded,
                         ),
                       ),
 

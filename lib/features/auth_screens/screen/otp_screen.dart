@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nyro_cryto/features/auth_screens/services/auth_service.dart';
+import 'package:pinput/pinput.dart';
 
 class OtpScreen extends ConsumerStatefulWidget {
   const OtpScreen({super.key});
@@ -41,6 +42,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                     ),
                   ),
                   SizedBox(height: 20,),
+                  Pinput()
                   
                 ],
               ),
