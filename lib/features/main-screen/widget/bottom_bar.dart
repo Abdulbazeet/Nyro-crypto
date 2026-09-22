@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key, required this.currentIndex, required this.onTap});
@@ -65,7 +66,7 @@ class _BottomBarState extends State<BottomBar> {
                           ? const LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: [Color(0xFFFF5D73), Color(0xFFFF7D68)],
+                              colors: [Colors.white, Colors.white],
                             )
                           : null,
                     ),
@@ -73,11 +74,11 @@ class _BottomBarState extends State<BottomBar> {
                       children: [
                         SvgPicture.asset(
                           _items[index].icon,
-                          height: 16,
+                          height: 18,
 
                           color: isSelected!
                               ? const Color(0xFF1A0D0D)
-                              : Colors.white.withValues(alpha: .3),
+                              : Colors.white.withValues(alpha: .6),
                         ),
                         AnimatedSize(
                           duration: const Duration(milliseconds: 300),
@@ -87,13 +88,11 @@ class _BottomBarState extends State<BottomBar> {
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Text(
                                     _items[index].label,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: const Color(0xFF1A0D0D),
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                    style: GoogleFonts.spaceGrotesk(
+                                      fontSize: 13,
+                                      color: Colors.black,
+                                      fontWeight: .bold,
+                                    ),
                                   ),
                                 )
                               : const SizedBox.shrink(),

@@ -1,23 +1,22 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class UserModels {
-  final String id;
-  final String email;
-  final String username;
-  final double portfolioValue;
-  final String currency;
+  final String? id;
+  final String? email;
+  final String? username;
+  final double? portfolioValue;
+  final String? currency;
 
   const UserModels({
-    required this.id,
-    required this.email,
-    required this.username,
-    required this.portfolioValue,
-    required this.currency,
+    this.id,
+    this.email,
+    this.username,
+    this.portfolioValue = 100000.0,
+    this.currency = 'USD',
   });
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
       'id': id,
       'email': email,
       'username': username,
@@ -28,11 +27,11 @@ class UserModels {
 
   factory UserModels.fromMap(Map<String, dynamic> map) {
     return UserModels(
-      id: map['id'] as String,
-      email: map['email'] as String,
-      username: map['username'] as String,
-      portfolioValue: map['portfolioValue'] as double,
-      currency: map['currency'] as String,
+      id: map['id'] as String?,
+      email: map['email'] as String?,
+      username: map['username'] as String?,
+      portfolioValue: (map['portfolioValue'] as num?)?.toDouble() ?? 100000.0,
+      currency: map['currency'] as String? ?? 'USD',
     );
   }
 
