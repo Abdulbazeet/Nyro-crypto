@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppUtils {
@@ -28,5 +29,14 @@ class AppUtils {
         backgroundColor: color,
       ),
     );
+  }
+
+  static String formatCurrency(double value, String currency) {
+    final formatter = NumberFormat.simpleCurrency(
+      name: currency,
+      decimalDigits: 2,
+    );
+
+    return formatter.format(value);
   }
 }
