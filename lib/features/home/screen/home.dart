@@ -287,7 +287,7 @@ class _HomeState extends ConsumerState<Home> {
                               ),
                             ),
                             Text(
-                              'See all',
+                              'See wallet',
                               style: GoogleFonts.spaceGrotesk(
                                 fontSize: 12,
                                 color: Colors.black45,
@@ -298,7 +298,38 @@ class _HomeState extends ConsumerState<Home> {
                         ),
 
                         SizedBox(height: 20),
-                        
+                        SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            'No assets owned yet',
+                            style: GoogleFonts.spaceGrotesk(
+                              fontSize: 12,
+                              color: Colors.black45,
+                            ),
+                            textAlign: .center,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: .spaceBetween,
+                          children: [
+                            Text(
+                              'Market snapshot',
+                              style: GoogleFonts.spaceGrotesk(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'See all',
+                              style: GoogleFonts.spaceGrotesk(
+                                fontSize: 12,
+                                color: Colors.black45,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),

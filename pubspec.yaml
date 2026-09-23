@@ -48,6 +48,9 @@ dependencies:
   cloud_firestore: ^6.10.0
   pinput: ^6.0.2
   intl: ^0.20.3
+  riverpod_generator: ^4.0.9
+  riverpod_annotation: ^4.0.7
+  build_runner: ^2.16.1
 
 dev_dependencies:
 

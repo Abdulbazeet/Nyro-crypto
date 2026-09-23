@@ -4,12 +4,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nyro_cryto/features/auth_screens/services/auth_service.dart';
 import 'package:nyro_cryto/model/user_models.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'auth_notifier.g.dart';
 
-class AuthNotifier extends AsyncNotifier<UserCredential?> {
-  late final AuthService _authService;
+@riverpod
+class AuthNotifier extends _$AuthNotifier {
+  // late final AuthService _authService;
   @override
   FutureOr<UserCredential?> build() {
-    _authService = ref.read(authServiceProvider);
+   // _authService = ref.read(authServiceProvider);
     return null;
   }
 
@@ -20,6 +23,7 @@ class AuthNotifier extends AsyncNotifier<UserCredential?> {
   }) async {
     state = const AsyncValue.loading();
     try {
+        final _authService = ref.read(authServiceProvider);
       final credential = await _authService.signUpWithEmailAndPassword(
         email: email,
         password: password,
@@ -34,6 +38,7 @@ class AuthNotifier extends AsyncNotifier<UserCredential?> {
   Future<void> signIn({required String email, required String password}) async {
     state = const AsyncValue.loading();
     try {
+      final _authService = ref.read(authServiceProvider);
       final credential = await _authService.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -47,6 +52,7 @@ class AuthNotifier extends AsyncNotifier<UserCredential?> {
   Future<void> signOut() async {
     state = const AsyncValue.loading();
     try {
+      final _authService = ref.read(authServiceProvider);
       await _authService.signOut();
       state = const AsyncValue.data(null);
     } catch (e, stackTrace) {
@@ -57,6 +63,7 @@ class AuthNotifier extends AsyncNotifier<UserCredential?> {
   Future<bool> isEmailVerified() async {
     state = const AsyncValue.loading();
     try {
+      final _authService = ref.read(authServiceProvider);
       final isVerfied = await _authService.isEmailVerified();
       return isVerfied;
     } catch (e, stackTrace) {
@@ -68,6 +75,7 @@ class AuthNotifier extends AsyncNotifier<UserCredential?> {
   Future<void> resendVerificationEmail() async {
     state = const AsyncValue.loading();
     try {
+      final _authService = ref.read(authServiceProvider);
       await _authService.resendVerificationEmail();
       state = const AsyncValue.data(null);
     } catch (e, stackTrace) {
@@ -88,5 +96,5 @@ class AuthNotifier extends AsyncNotifier<UserCredential?> {
   // }
 }
 
-final authNotifierProvider =
-    AsyncNotifierProvider<AuthNotifier, UserCredential?>(AuthNotifier.new);
+// final authNotifierProvider =
+//     AsyncNotifierProvider<AuthNotifier, UserCredential?>(AuthNotifier.new);

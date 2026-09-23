@@ -1,7 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nyro_cryto/model/user_models.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'auth_service.g.dart';
+
+@riverpod
+AuthService authService(Ref ref) {
+  return AuthService();
+}
+
+@riverpod
+Future<UserModels?> currentUser(Ref ref) async {
+  final authService = ref.watch(authServiceProvider);
+
+  return authService.getCurrentUser();
+}
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -60,7 +73,6 @@ class AuthService {
     return UserModels.fromMap(userDoc.data()!);
   }
 
-  //
   Future<bool> isEmailVerified() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
@@ -85,11 +97,11 @@ class AuthService {
   }
 }
 
-final authServiceProvider = Provider<AuthService>((ref) {
-  return AuthService();
-});
+// final authServiceProvider = Provider<AuthService>((ref) {
+//   return AuthService();
+// });
 
-final currentUserProvider = FutureProvider<UserModels?>((ref) async {
-  final authService = ref.watch(authServiceProvider);
-  return await authService.getCurrentUser();
-});
+// final currentUserProvider = FutureProvider<UserModels?>((ref) async {
+//   final authService = ref.watch(authServiceProvider);
+//   return await authService.getCurrentUser();
+// });

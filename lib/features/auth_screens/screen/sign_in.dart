@@ -23,7 +23,7 @@ class _SignInState extends ConsumerState<SignIn> {
   void initState() {
     super.initState();
 
-    ref.listenManual(authNotifierProvider, (previous, next) {
+    ref.listenManual(authProvider, (previous, next) {
       next.whenOrNull(
         data: (credential) {
           if (credential == null) return;
@@ -43,8 +43,8 @@ class _SignInState extends ConsumerState<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    final authNotifier = ref.watch(authNotifierProvider.notifier);
-    final authState = ref.watch(authNotifierProvider);
+    final authNotifier = ref.watch(authProvider.notifier);
+    final authState = ref.watch(authProvider);
     return Scaffold(
       body: SafeArea(
         child: SizedBox.expand(
