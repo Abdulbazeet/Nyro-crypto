@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nyro_cryto/common/app_theme.dart';
 import 'package:nyro_cryto/firebase_options.dart';
 import 'package:nyro_cryto/routes.dart';
 
@@ -21,6 +22,8 @@ class MyApp extends StatelessWidget {
       title: 'Nyro Crypo',
 
       debugShowCheckedModeBanner: false,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
       routerConfig: AppRoute.routes,
     );
   }
