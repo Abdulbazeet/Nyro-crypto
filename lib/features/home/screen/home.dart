@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nyro_cryto/common/app_utils.dart';
 import 'package:nyro_cryto/features/auth_screens/services/auth_service.dart';
+import 'package:nyro_cryto/features/home/widget/market_snapshot_list.dart';
 
 class Home extends ConsumerStatefulWidget {
   const Home({super.key});
@@ -54,6 +54,8 @@ class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(currentUserProvider);
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: SafeArea(
         child: SizedBox.expand(
@@ -77,11 +79,7 @@ class _HomeState extends ConsumerState<Home> {
                                 children: [
                                   Text(
                                     greetings(),
-                                    style: GoogleFonts.spaceGrotesk(
-                                      fontSize: 12,
-                                      color: Colors.black38,
-                                      fontWeight: .bold,
-                                    ),
+                                    style: textTheme.labelMedium,
                                   ),
 
                                   Text(
@@ -91,11 +89,7 @@ class _HomeState extends ConsumerState<Home> {
                                           loading: () => 'User',
                                         ) ??
                                         '',
-                                    style: GoogleFonts.spaceGrotesk(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                      fontWeight: .bold,
-                                    ),
+                                    style: textTheme.headlineSmall,
                                   ),
                                 ],
                               ),
@@ -154,10 +148,8 @@ class _HomeState extends ConsumerState<Home> {
                                           loading: () => 'U',
                                         ) ??
                                         '',
-                                    style: GoogleFonts.spaceGrotesk(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: .bold,
+                                    style: textTheme.headlineSmall?.copyWith(
+                                      color: colorScheme.onPrimary,
                                     ),
                                   ),
                                 ),
@@ -195,10 +187,10 @@ class _HomeState extends ConsumerState<Home> {
                             children: [
                               Text(
                                 'Total portfolio value',
-                                style: GoogleFonts.spaceGrotesk(
-                                  fontSize: 12,
-                                  color: Colors.white.withValues(alpha: .7),
-                                  fontWeight: .bold,
+                                style: textTheme.labelMedium?.copyWith(
+                                  color: colorScheme.onPrimary.withValues(
+                                    alpha: .7,
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 5),
@@ -212,10 +204,8 @@ class _HomeState extends ConsumerState<Home> {
                                       loading: () => 'USD 0.00',
                                     ) ??
                                     'USD 0.00',
-                                style: GoogleFonts.spaceGrotesk(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: .bold,
+                                style: textTheme.headlineSmall?.copyWith(
+                                  color: colorScheme.onPrimary,
                                 ),
                               ),
                             ],
@@ -257,11 +247,7 @@ class _HomeState extends ConsumerState<Home> {
                                   SizedBox(height: 10),
                                   Text(
                                     tabsTiles[i].text,
-                                    style: GoogleFonts.spaceGrotesk(
-                                      fontSize: 12,
-                                      color: Colors.black45,
-                                      fontWeight: .bold,
-                                    ),
+                                    style: textTheme.labelMedium,
                                   ),
                                 ],
                               ),
@@ -279,21 +265,8 @@ class _HomeState extends ConsumerState<Home> {
                         Row(
                           mainAxisAlignment: .spaceBetween,
                           children: [
-                            Text(
-                              'Your holdings',
-                              style: GoogleFonts.spaceGrotesk(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'See wallet',
-                              style: GoogleFonts.spaceGrotesk(
-                                fontSize: 12,
-                                color: Colors.black45,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            Text('Your holdings', style: textTheme.titleSmall),
+                            Text('See wallet', style: textTheme.labelMedium),
                           ],
                         ),
 
@@ -302,10 +275,7 @@ class _HomeState extends ConsumerState<Home> {
                           width: double.infinity,
                           child: Text(
                             'No assets owned yet',
-                            style: GoogleFonts.spaceGrotesk(
-                              fontSize: 12,
-                              color: Colors.black45,
-                            ),
+                            style: textTheme.bodySmall,
                             textAlign: .center,
                           ),
                         ),
@@ -315,21 +285,12 @@ class _HomeState extends ConsumerState<Home> {
                           children: [
                             Text(
                               'Market snapshot',
-                              style: GoogleFonts.spaceGrotesk(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: textTheme.titleSmall,
                             ),
-                            Text(
-                              'See all',
-                              style: GoogleFonts.spaceGrotesk(
-                                fontSize: 12,
-                                color: Colors.black45,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            Text('See all', style: textTheme.labelMedium),
                           ],
                         ),
+                        const MarketSnapshotList(),
                       ],
                     ),
                   ),

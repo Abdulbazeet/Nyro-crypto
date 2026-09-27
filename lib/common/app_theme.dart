@@ -26,6 +26,11 @@ class AppTheme {
         fontSize: 16,
         fontWeight: FontWeight.bold,
       ),
+      titleSmall: base.titleSmall?.copyWith(
+        color: color,
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      ),
       bodyLarge: base.bodyLarge?.copyWith(color: color, fontSize: 14),
       bodyMedium: base.bodyMedium?.copyWith(color: mutedColor, fontSize: 14),
       bodySmall: base.bodySmall?.copyWith(color: mutedColor, fontSize: 12),
@@ -160,9 +165,7 @@ class AppTheme {
       cardTheme: CardThemeData(
         color: surface,
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       dividerTheme: DividerThemeData(
         color: mutedTextColor.withValues(alpha: 0.2),
