@@ -48,4 +48,4 @@ final class MarketSnapshotsProvider
   }
 }
 
-String _$marketSnapshotsHash() => r'dee5579987cd5a4080c72eb4d72039edb9399ab9';
+String _$marketSnapshotsHash() => r'fd78e34259ac1fe27206cd0665f38dc477477ec4';

@@ -24,6 +24,7 @@ class _HomeMarketState extends ConsumerState<HomeMarket> {
               crossAxisAlignment: .start,
               children: [
                 Row(
+                  mainAxisAlignment: .spaceBetween,
                   children: [
                     Container(
                       height: 50,
@@ -31,22 +32,10 @@ class _HomeMarketState extends ConsumerState<HomeMarket> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(color: Colors.black26),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Colors.black.withValues(alpha: .1),
-                        //     blurRadius: 10,
-                        //     offset: Offset(0, 5),
-                        //   ),
-                        //   BoxShadow(
-                        //     color: Colors.black.withValues(alpha: .1),
-                        //     blurRadius: 10,
-                        //     offset: Offset(0, 5),
-                        //   ),
-                        // ],
                       ),
                       alignment: .center,
                       child: SvgPicture.asset(
-                        'assets/svgs/ui/icon-notification-bell.svg',
+                        'assets/svgs/ui/icon-star-watchlist.svg',
                         height: 20,
                         color: Colors.black,
                       ),
