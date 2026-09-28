@@ -60,7 +60,7 @@ class _HomeState extends ConsumerState<Home> {
       body: SafeArea(
         child: SizedBox.expand(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 20).copyWith(top: 30),
+            padding: EdgeInsets.symmetric(vertical: 100).copyWith(top: 30),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: .start,
@@ -291,6 +291,26 @@ class _HomeState extends ConsumerState<Home> {
                           ],
                         ),
                         const MarketSnapshotList(),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: .spaceBetween,
+                          children: [
+                            Text(
+                              'Recent activity',
+                              style: textTheme.titleSmall,
+                            ),
+                            Text('See all', style: textTheme.labelMedium),
+                          ],
+                        ),
+                         SizedBox(height: 20),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            'No activity recorded yet',
+                            style: textTheme.bodySmall,
+                            textAlign: .center,
+                          ),
+                        ),
                       ],
                     ),
                   ),

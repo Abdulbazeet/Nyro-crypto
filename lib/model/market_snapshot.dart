@@ -8,6 +8,7 @@ class MarketSnapshot {
   final String imageUrl;
   final double priceUsd;
   final double priceChangePercentage24h;
+  final List<double> priceHistory;
   final DateTime updatedAt;
 
   const MarketSnapshot({
@@ -17,6 +18,7 @@ class MarketSnapshot {
     required this.imageUrl,
     required this.priceUsd,
     required this.priceChangePercentage24h,
+    this.priceHistory = const [],
     required this.updatedAt,
   });
 
@@ -27,6 +29,7 @@ class MarketSnapshot {
     String? imageUrl,
     double? priceUsd,
     double? priceChangePercentage24h,
+    List<double>? priceHistory,
     DateTime? updatedAt,
   }) {
     return MarketSnapshot(
@@ -37,6 +40,7 @@ class MarketSnapshot {
       priceUsd: priceUsd ?? this.priceUsd,
       priceChangePercentage24h:
           priceChangePercentage24h ?? this.priceChangePercentage24h,
+      priceHistory: priceHistory ?? this.priceHistory,
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
@@ -49,6 +53,7 @@ class MarketSnapshot {
       'imageUrl': imageUrl,
       'priceUsd': priceUsd,
       'priceChangePercentage24h': priceChangePercentage24h,
+      'priceHistory': priceHistory,
       'updatedAt': updatedAt.millisecondsSinceEpoch,
     };
   }
@@ -61,6 +66,9 @@ class MarketSnapshot {
       imageUrl: map['imageUrl'] as String,
       priceUsd: map['priceUsd'] as double,
       priceChangePercentage24h: map['priceChangePercentage24h'] as double,
+      priceHistory: (map['priceHistory'] as List<dynamic>? ?? const [])
+          .map((value) => (value as num).toDouble())
+          .toList(growable: false),
       updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int),
     );
   }

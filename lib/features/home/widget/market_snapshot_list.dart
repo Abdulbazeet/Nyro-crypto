@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nyro_cryto/core/notifier.dart';
+import 'package:nyro_cryto/features/home/service/notifier.dart';
 import 'package:nyro_cryto/features/home/widget/market_snapshot_shimmer.dart';
 import 'package:nyro_cryto/features/home/widget/market_snapshot_tile.dart';
 
@@ -13,7 +13,9 @@ class MarketSnapshotList extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return marketState.when(
-      loading: () => const MarketSnapshotShimmer(),
+      loading: () {
+        return const MarketSnapshotShimmer();
+      },
       error: (error, stackTrace) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Center(
@@ -21,7 +23,7 @@ class MarketSnapshotList extends ConsumerWidget {
         ),
       ),
       data: (markets) {
-        final visibleMarkets = markets.take(5).toList();
+        final visibleMarkets = markets.take(10).toList();
         if (visibleMarkets.isEmpty) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),

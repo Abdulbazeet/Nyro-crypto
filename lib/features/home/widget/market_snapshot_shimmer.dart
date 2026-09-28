@@ -34,11 +34,7 @@ class _MarketSnapshotShimmerState extends State<MarketSnapshotShimmer>
             return LinearGradient(
               begin: Alignment(offset - 1, 0),
               end: Alignment(offset + 1, 0),
-              colors: [
-                theme.colorScheme.surfaceContainerHighest,
-                theme.colorScheme.surface,
-                theme.colorScheme.surfaceContainerHighest,
-              ],
+              colors: [Color(0xFFE9E9E9), Color(0xFFF7F7F7), Color(0xFFE9E9E9)],
             ).createShader(bounds);
           },
           child: child,

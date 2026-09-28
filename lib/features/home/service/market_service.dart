@@ -36,9 +36,9 @@ class MarketService {
       queryParameters: {
         'vs_currency': 'usd',
         'order': 'market_cap_desc',
-        'per_page': 5,
+        'per_page': 20,
         'page': 1,
-        'sparkline': false,
+        'sparkline': true,
         'price_change_percentage': '24h',
       },
     );
@@ -62,7 +62,7 @@ class MarketService {
           'order': 'market_cap_desc',
           'per_page': perPage,
           'page': page,
-          'sparkline': false,
+          'sparkline': true,
           'price_change_percentage': '24h',
         },
       );
@@ -80,7 +80,14 @@ class MarketService {
   }
 
   Stream<List<MarketSnapshot>> streamMarketSnapshots() async* {
+    final loadingStartedAt = DateTime.now();
     final snapshots = await getMarketSnapshotPreview();
+    const minimumLoadingDuration = Duration(milliseconds: 400);
+    final elapsed = DateTime.now().difference(loadingStartedAt);
+    final remaining = minimumLoadingDuration - elapsed;
+    if (remaining > Duration.zero) {
+      await Future<void>.delayed(remaining);
+    }
     yield snapshots;
 
     late final Map<String, String> productSymbols;
@@ -182,6 +189,13 @@ class MarketService {
       priceUsd: price,
       priceChangePercentage24h:
           (market['price_change_percentage_24h'] as num?)?.toDouble() ?? 0,
+      priceHistory:
+          ((market['sparkline_in_7d'] as Map<String, dynamic>?)?['price']
+                      as List<dynamic>? ??
+                  const [])
+              .whereType<num>()
+              .map((value) => value.toDouble())
+              .toList(growable: false),
       updatedAt: DateTime.now().toUtc(),
     );
   }
