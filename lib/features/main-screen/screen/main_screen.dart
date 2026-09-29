@@ -33,13 +33,16 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             Positioned.fill(child: screens[currentIndex]),
             Align(
               alignment: .bottomCenter,
-              child: BottomBar(
-                currentIndex: currentIndex,
-                onTap: (p0) {
-                  setState(() {
-                    currentIndex = p0;
-                  });
-                },
+              child: Container(
+                color: Colors.transparent,
+                child: BottomBar(
+                  currentIndex: currentIndex,
+                  onTap: (p0) {
+                    setState(() {
+                      currentIndex = p0;
+                    });
+                  },
+                ),
               ),
             ),
           ],

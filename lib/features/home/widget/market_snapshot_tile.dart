@@ -22,7 +22,7 @@ class MarketSnapshotTile extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        context.go('/home-market', extra: market);
+        context.push('/home-market', extra: market);
       },
       child: Container(
         margin: const EdgeInsets.only(top: 10),
