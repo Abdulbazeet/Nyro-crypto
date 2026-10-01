@@ -1,4 +1,5 @@
 import 'package:nyro_cryto/model/market_snapshot.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'market_service.dart';
@@ -7,7 +8,7 @@ part 'market_notifier.g.dart';
 
 @Riverpod(keepAlive: true)
 MarketDataService marketDataService(Ref ref) {
-  const coinGeckoApiKey = String.fromEnvironment('COINGECKO_API_KEY');
+  final coinGeckoApiKey = dotenv.env['COINGECKO_API_KEY'] ?? '';
   final service = MarketDataService(
     coinGeckoApiKey: coinGeckoApiKey.isEmpty ? null : coinGeckoApiKey,
   );
