@@ -14,12 +14,6 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const ProviderScope(child: MyApp()));
-
-  // if (kDebugMode) {
-  //   Future.microtask(() async {
-  //     await DevicePreview.controller.applyPreset(DevicePresets.iPhone17ProMax);
-  //   });
-  // }
 }
 
 class MyApp extends StatelessWidget {
