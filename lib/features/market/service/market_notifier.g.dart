@@ -54,7 +54,7 @@ final class MarketDataServiceProvider
   }
 }
 
-String _$marketDataServiceHash() => r'6687692e7670708ad30529dc0fb3ac42421305ce';
+String _$marketDataServiceHash() => r'05203cd60f464e2332fa81ca47f5bb06ce6c5e09';
 
 @ProviderFor(marketMarkets)
 final marketMarketsProvider = MarketMarketsProvider._();
