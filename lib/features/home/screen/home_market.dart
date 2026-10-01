@@ -19,14 +19,14 @@ class _HomeMarketState extends ConsumerState<HomeMarket> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final changeIsPositive = widget.market.priceChangePercentage24h >= 0;
+    final changeIsPositive = widget.market.priceChangePercentage24h! >= 0;
     final changeColor = changeIsPositive
         ? Colors.green
         : theme.colorScheme.error;
     final changePrefix = changeIsPositive ? '+' : '';
-    final marketInitial = widget.market.symbol.isEmpty
+    final marketInitial = widget.market.symbol!.isEmpty
         ? '?'
-        : widget.market.symbol[0];
+        : widget.market.symbol!.substring(0, 1);
 
     return Scaffold(
       body: SafeArea(
@@ -80,14 +80,14 @@ class _HomeMarketState extends ConsumerState<HomeMarket> {
                     SizedBox(
                       height: 40,
                       width: 40,
-                      child: widget.market.imageUrl.isEmpty
+                      child: widget.market.imageUrl!.isEmpty
                           ? MarketInitial(
                               initial: marketInitial,
                               colorScheme: theme.colorScheme,
                               textTheme: theme.textTheme,
                             )
                           : Image.network(
-                              widget.market.imageUrl,
+                              widget.market.imageUrl!,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
                                   MarketInitial(
@@ -103,13 +103,13 @@ class _HomeMarketState extends ConsumerState<HomeMarket> {
                         crossAxisAlignment: .start,
                         children: [
                           Text(
-                            widget.market.name,
+                            widget.market.name!,
                             style: theme.textTheme.bodyLarge?.copyWith(
                               fontWeight: .bold,
                             ),
                           ),
                           Text(
-                            widget.market.symbol,
+                            widget.market.symbol!,
                             style: theme.textTheme.bodySmall,
                           ),
                         ],
@@ -119,7 +119,7 @@ class _HomeMarketState extends ConsumerState<HomeMarket> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  AppUtils.formatCurrency(widget.market.priceUsd, 'USD'),
+                  AppUtils.formatCurrency(widget.market.priceUsd!, 'USD'),
                   style: theme.textTheme.labelLarge?.copyWith(),
                 ),
                 SizedBox(height: 10),
@@ -130,7 +130,7 @@ class _HomeMarketState extends ConsumerState<HomeMarket> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    '$changePrefix${widget.market.priceChangePercentage24h.toStringAsFixed(2)}%',
+                    '$changePrefix${widget.market.priceChangePercentage24h!.toStringAsFixed(2)}%',
                     style: theme.textTheme.labelMedium?.copyWith(
                       color: changeColor,
                     ),

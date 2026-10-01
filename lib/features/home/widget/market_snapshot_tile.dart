@@ -13,12 +13,14 @@ class MarketSnapshotTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final changeIsPositive = market.priceChangePercentage24h >= 0;
+    final changeIsPositive = market.priceChangePercentage24h! >= 0;
     final changeColor = changeIsPositive
         ? Colors.green
         : theme.colorScheme.error;
     final changePrefix = changeIsPositive ? '+' : '';
-    final marketInitial = market.symbol.isEmpty ? '?' : market.symbol[0];
+    final marketInitial = market.symbol!.isEmpty
+        ? '?'
+        : market.symbol!.substring(0, 1);
 
     return GestureDetector(
       onTap: () {
@@ -41,14 +43,14 @@ class MarketSnapshotTile extends StatelessWidget {
               width: 40,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: market.imageUrl.isEmpty
+                child: market.imageUrl!.isEmpty
                     ? MarketInitial(
                         initial: marketInitial,
                         colorScheme: theme.colorScheme,
                         textTheme: theme.textTheme,
                       )
                     : Image.network(
-                        market.imageUrl,
+                        market.imageUrl!,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) =>
                             MarketInitial(
@@ -64,8 +66,8 @@ class MarketSnapshotTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(market.name, style: theme.textTheme.bodyLarge),
-                  Text(market.symbol, style: theme.textTheme.bodySmall),
+                  Text(market.name!, style: theme.textTheme.bodyLarge),
+                  Text(market.symbol!, style: theme.textTheme.bodySmall),
                 ],
               ),
             ),
@@ -75,7 +77,7 @@ class MarketSnapshotTile extends StatelessWidget {
                 height: 30,
                 child: CustomPaint(
                   painter: MarketTrendPainter(
-                    values: market.priceHistory,
+                    values: market.priceHistory!,
                     color: changeColor,
                   ),
                 ),
@@ -86,11 +88,11 @@ class MarketSnapshotTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  AppUtils.formatCurrency(market.priceUsd, 'USD'),
+                  AppUtils.formatCurrency(market.priceUsd!, 'USD'),
                   style: theme.textTheme.labelLarge,
                 ),
                 Text(
-                  '$changePrefix${market.priceChangePercentage24h.toStringAsFixed(2)}%',
+                  '$changePrefix${market.priceChangePercentage24h!.toStringAsFixed(2)}%',
                   style: theme.textTheme.labelMedium?.copyWith(
                     color: changeColor,
                   ),
